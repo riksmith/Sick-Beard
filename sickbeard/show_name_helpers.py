@@ -29,11 +29,6 @@ import datetime
 
 from name_parser.parser import NameParser, InvalidNameException
 
-resultFilters = ["sub(bed|ed|pack|s)", "(dk|fin|heb|kor|nl|nor|nordic|pl|swe)sub(bed|ed|s)?",
-                 "(dir|sample|sub|nfo|proof)fix(es)?", "sample", "(dvd)?extras",
-                 "dub(bed)?"]
-
-
 def filterBadReleases(name):
     """
     Filters out non-english and just all-around stupid releases by comparing them
@@ -66,7 +61,7 @@ def filterBadReleases(name):
         return True
 
     # if any of the bad strings are in the name then say no
-    for ignore_word in resultFilters + sickbeard.IGNORE_WORDS.split(','):
+    for ignore_word in sickbeard.IGNORE_WORDS.split(','):
         ignore_word = ignore_word.strip()
         if ignore_word:
             if re.search('(^|[\W_])' + ignore_word + '($|[\W_])', check_string, re.I):
@@ -198,7 +193,8 @@ def isGoodResult(name, show, log=True):
     for curName in set(showNames):
         escaped_name = re.sub('\\\\[\\s.-]', '\W+', re.escape(curName))
         if show.startyear:
-            escaped_name += "(?:\W+" + str(show.startyear) + ")?"
+            #escaped_name += "(?:\W+" + str(show.startyear) + ")?" Workaround for Q o Q using current year instead of start year
+            escaped_name += "(?:\W+\d{4}" + ")?"
         curRegex = '^' + escaped_name + '\W+(?:(?:S\d[\dE._ -])|(?:\d\d?x)|(?:\d{4}\W\d\d\W\d\d)|(?:(?:part|pt)[\._ -]?(\d|[ivx]))|Season\W+\d+\W+|E\d+\W+)'
         if log:
             logger.log(u"Checking if show " + name + " matches " + curRegex, logger.DEBUG)
