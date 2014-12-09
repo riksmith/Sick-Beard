@@ -195,7 +195,7 @@ class NewznabProvider(generic.NZBProvider):
 
         params = {"t": "tvsearch",
                   "maxage": sickbeard.USENET_RETENTION,
-                  "limit": 500,
+                  "limit": 499,
                   "cat": self.catIDs}
 
         # if max_age is set, use it, don't allow it to be missing
@@ -302,7 +302,7 @@ class NewznabCache(tvcache.TVCache):
 
         params = {"t": "tvsearch",
                   "cat": self.provider.catIDs,
-                  "limit": 500}
+                  "limit": 499}
 
         if self.provider.needs_auth and self.provider.key:
             params['apikey'] = self.provider.key
