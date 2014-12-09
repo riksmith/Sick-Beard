@@ -195,7 +195,7 @@ class NewznabProvider(generic.NZBProvider):
 
         params = {"t": "tvsearch",
                   "maxage": sickbeard.USENET_RETENTION,
-                  "limit": 100,
+                  "limit": 500,
                   "cat": self.catIDs}
 
         # if max_age is set, use it, don't allow it to be missing
@@ -301,7 +301,8 @@ class NewznabCache(tvcache.TVCache):
     def _getRSSData(self):
 
         params = {"t": "tvsearch",
-                  "cat": self.provider.catIDs}
+                  "cat": self.provider.catIDs,
+                  "limit": 500}
 
         if self.provider.needs_auth and self.provider.key:
             params['apikey'] = self.provider.key
