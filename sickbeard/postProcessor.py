@@ -323,7 +323,7 @@ class PostProcessor(object):
         if not name:
             return to_return
 
-        name = helpers.remove_non_release_groups(helpers.remove_extension(name))
+        name = helpers.handle_qoq(helpers.remove_non_release_groups(helpers.remove_extension(name)))
 
         # parse the name to break it into show name, season, and episode
         np = NameParser(False)

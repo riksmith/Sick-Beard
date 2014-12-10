@@ -108,6 +108,14 @@ def remove_non_release_groups(name):
 
     return name
 
+def handle_qoq(name):
+    """
+    Detect if this is a reversed QoQ release and reverse the name.
+    """
+
+    if name and name.startswith("QoQ-"):
+        name = name[::-1]
+    return name
 
 def replaceExtension(filename, newExt):
     '''
