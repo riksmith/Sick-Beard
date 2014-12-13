@@ -108,12 +108,12 @@ def remove_non_release_groups(name):
 
     return name
 
-def handle_qoq(name):
+def handle_reversed_names(name):
     """
-    Detect if this is a reversed QoQ release and reverse the name.
+    Detect if this is a reversed QoQ or other release and reverse the name.
     """
 
-    if name and name.startswith("QoQ-"):
+    if name and (name.startswith("QoQ-") or "p0801" in name or "p027" in name or "462x" in name):
         name = name[::-1]
     return name
 
