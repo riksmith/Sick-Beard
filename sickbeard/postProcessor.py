@@ -560,7 +560,10 @@ class PostProcessor(object):
         ep_quality = common.Quality.UNKNOWN
 
         # nzb name is the most reliable if it exists, followed by folder name and lastly file name
-        name_list = [self.nzb_name, self.folder_name, self.file_name]
+        filename = self.file_name;
+        orig_extension = filename.rpartition('.')[-1]
+        filename - helpers.handle_reversed_names(helpers.remove_extension(filename)) + "." + orig_extension
+        name_list = [self.nzb_name, self.folder_name, filename]
 
         # search all possible names for our new quality, in case the file or dir doesn't have it
         for cur_name in name_list:
@@ -585,10 +588,10 @@ class PostProcessor(object):
                 return ep_quality
 
         # Try guessing quality from the file name
-        ep_quality = common.Quality.assumeQuality(self.file_name)
-        self._log(u"Guessing quality for name " + self.file_name + u", got " + common.Quality.qualityStrings[ep_quality], logger.DEBUG)
+        ep_quality = common.Quality.assumeQuality(filename)
+        self._log(u"Guessing quality for name " + filename + u", got " + common.Quality.qualityStrings[ep_quality], logger.DEBUG)
         if ep_quality != common.Quality.UNKNOWN:
-            logger.log(self.file_name + u" looks like it has quality " + common.Quality.qualityStrings[ep_quality] + ", using that", logger.DEBUG)
+            logger.log(filename + u" looks like it has quality " + common.Quality.qualityStrings[ep_quality] + ", using that", logger.DEBUG)
             return ep_quality
 
         return ep_quality
