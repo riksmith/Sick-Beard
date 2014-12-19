@@ -562,7 +562,7 @@ class PostProcessor(object):
         # nzb name is the most reliable if it exists, followed by folder name and lastly file name
         filename = self.file_name;
         orig_extension = filename.rpartition('.')[-1]
-        filename - helpers.handle_reversed_names(helpers.remove_extension(filename)) + "." + orig_extension
+        filename = helpers.handle_reversed_names(helpers.remove_extension(filename)) + '.' + orig_extension
         name_list = [self.nzb_name, self.folder_name, filename]
 
         # search all possible names for our new quality, in case the file or dir doesn't have it
