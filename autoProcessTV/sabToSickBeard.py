@@ -20,6 +20,7 @@
 
 
 import sys
+import subprocess
 
 try:
     import autoProcessTV
@@ -55,6 +56,14 @@ group_NZB = sys.argv[6] if len(sys.argv) > 7 else None
 
 # 7  Status of post processing. 0 = OK, 1=failed verification, 2=failed unpack, 3=1+2
 sab_post_processing_status = sys.argv[7] if len(sys.argv) > 8 else None
+
+filepath = "C:/Program Files (x86)/SABnzbd/custom scripts/rename.bat"
+print download_final_dir
+p = subprocess.Popen([filepath, download_final_dir], shell=True, stdout = subprocess.PIPE)
+while True:
+  line = p.stdout.readline()
+  if not line: break
+  print (line.strip())
 
 # Only final_dir and org_NZB_name are being used to process episodes
 autoProcessTV.processEpisode(download_final_dir, org_NZB_name)
