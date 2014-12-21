@@ -60,6 +60,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 from sickbeard import browser
+from sickbeard import scene_exceptions
 
 
 class PageTemplate (Template):
@@ -195,7 +196,8 @@ class ManageSearches:
         result = sickbeard.versionCheckScheduler.action.check_for_new_version(force=True)  # @UndefinedVariable
         if result:
             logger.log(u"Forcing version check")
-
+        # refresh scene exceptions too
+        scene_exceptions.retrieve_exceptions()
         redirect("/manage/manageSearches/")
 
 
