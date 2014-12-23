@@ -729,7 +729,7 @@ def initialize(consoleLogging=True):
         showUpdateScheduler = scheduler.Scheduler(showUpdater.ShowUpdater(),
                                                   cycleTime=datetime.timedelta(hours=1),
                                                   threadName="SHOWUPDATER",
-                                                  start_time=datetime.time(hour=3)  # 3 AM
+                                                  start_time=datetime.time(hour=6)  # 3 AM
                                                   )
 
         # searchers
