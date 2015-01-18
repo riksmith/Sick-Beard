@@ -176,6 +176,8 @@ class Quality:
             return Quality.HDTV
         elif name.lower().endswith(".ts"):
             return Quality.RAWHDTV
+        elif name.lower().endswith(".iso"):
+            return Quality.SDDVD
         else:
             return Quality.UNKNOWN
 
