@@ -155,7 +155,7 @@ class Quality:
             return Quality.HDTV
         elif checkName(["720p|1080i", "hdtv", "mpeg-?2"], all) or checkName(["1080[pi].hdtv", "h.?264"], all):
             return Quality.RAWHDTV
-        elif checkName(["1080p", "hdtv", "x264"], all):
+        elif checkName(["1080p", "hdtv"], all):#elif checkName(["1080p", "hdtv", "x264"], all):
             return Quality.FULLHDTV
         elif checkName(["720p", "web.dl|webrip"], all) or checkName(["720p", "itunes", "h.?264"], all):
             return Quality.HDWEBDL
