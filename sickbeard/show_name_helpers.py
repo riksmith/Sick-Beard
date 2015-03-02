@@ -209,6 +209,41 @@ def isGoodResult(name, show, log=True):
         logger.log(u"Provider gave result " + name + " but that doesn't seem like a valid result for " + show.name + " so I'm ignoring it")
     return False
 
+def isWantedResult(name, show, log=True):
+    """
+    Check if this name is allowed according to the required and ignored words
+    """
+
+    if show.rls_ignore_words and filter_release_name(name, show.rls_ignore_words):
+        if log:
+            logger.log(u"Ignoring " + name + " based on ignored words filter: " + show.rls_ignore_words, logger.MESSAGE)
+        return False
+
+    if show.rls_require_words and not filter_release_name(name, show.rls_require_words):
+        if log:
+            logger.log(u"Ignoring " + name + " based on required words filter: " + show.rls_require_words, logger.MESSAGE)
+        return False
+    return True
+
+def filter_release_name(name, filter_words):
+    """
+    Filters out results based on filter_words
+
+    name: name to check
+    filter_words : Words to filter on, separated by comma
+
+    Returns: False if the release name is OK, True if it contains one of the filter_words
+    """
+    if filter_words:
+        for test_word in filter_words.split(','):
+            test_word = test_word.strip()
+
+            if test_word:
+                if re.search('(^|[\W_])' + test_word + '($|[\W_])', name, re.I):
+                    logger.log(u"" + name + " contains word: " + test_word, logger.DEBUG)
+                    return True
+
+    return False
 
 def uniqify(seq, idfun=None):
     # http://www.peterbe.com/plog/uniqifiers-benchmark
