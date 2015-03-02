@@ -144,12 +144,8 @@ class ProperFinder():
                 logger.log(u"Unable to find the show with tvdbid " + str(curProper.tvdbid), logger.ERROR)
                 continue
 
-            if show.rls_ignore_words and search.filter_release_name(curProper.name, show.rls_ignore_words):
-                logger.log(u"Ignoring " + curProper.name + " based on ignored words filter: " + show.rls_ignore_words, logger.MESSAGE)
-                continue
-
-            if show.rls_require_words and not search.filter_release_name(curProper.name, show.rls_require_words):
-                logger.log(u"Ignoring " + curProper.name + " based on required words filter: " + show.rls_require_words, logger.MESSAGE)
+            if not show_name_helpers.isWantedResult(curProper.name, show):
+                logger.log(u"Proper " + curProper.name + " isn't a wanted release that we want, ignoring it", logger.DEBUG)
                 continue
 
             # if we have an air-by-date show then get the real season/episode numbers

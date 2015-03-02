@@ -368,6 +368,8 @@ class TVCache():
             showObj = helpers.findCertainShow(sickbeard.showList, int(curResult["tvdbid"]))
             if not showObj:
                 continue
+            if not show_name_helpers.isWantedResult(curResult["name"], showObj):
+                continue
 
             # get season and ep data (ignoring multi-eps for now)
             curSeason = int(curResult["season"])
