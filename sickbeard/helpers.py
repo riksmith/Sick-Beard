@@ -409,6 +409,8 @@ def copyFile(srcFile, destFile):
 def moveFile(srcFile, destFile):
     try:
         ek.ek(os.rename, srcFile, destFile)
+        if os.name == 'nt' or os.name == 'ce':
+            os.popen('icacls "' + destFile + '" /reset /T')
         fixSetGroupID(destFile)
     except OSError:
         copyFile(srcFile, destFile)
