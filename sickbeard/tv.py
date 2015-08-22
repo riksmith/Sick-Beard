@@ -1195,7 +1195,7 @@ class TVEpisode(object):
                     self.status = SKIPPED
                 else:
                     logger.log(u"Episode has no air date, automatically marking it unaired", logger.DEBUG)
-                    self.status = WANTED
+                    self.status = UNAIRED
             # if we don't have the file and the airdate is in the past
             else:
                 if self.status == UNAIRED:
