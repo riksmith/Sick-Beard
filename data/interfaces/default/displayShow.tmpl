@@ -91,7 +91,7 @@ replace with: <b><%=", ".join([Quality.qualityStrings[x] for x in sorted(bestQua
 <div class="float-left">
 Change selected episodes to 
 <select id="statusSelect">
-#for $curStatus in [$WANTED, $SKIPPED, $ARCHIVED, $IGNORED] + sorted($Quality.DOWNLOADED):
+#for $curStatus in [$WANTED, $SKIPPED, $ARCHIVED, $IGNORED, $UNAIRED] + sorted($Quality.DOWNLOADED):
 #if $curStatus == $DOWNLOADED:
 #continue
 #end if
