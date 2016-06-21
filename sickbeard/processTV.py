@@ -127,8 +127,8 @@ def processDir(dirName, nzbName=None, method=None, recurse=False, pp_options={})
 
     num_videoFiles = len(videoFiles)
 
-    # if there are no videofiles in parent and only one subfolder, pass the nzbName to child
-    if num_videoFiles == 0 and len(folders) == 1:
+    # if there are no videofiles in parent, pass the nzbName to child
+    if num_videoFiles == 0:
         parent_nzbName = nzbName
     else:
         parent_nzbName = None

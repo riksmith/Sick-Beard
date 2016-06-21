@@ -1428,7 +1428,7 @@ class HomePostProcess:
                     value = True
                 pp_options[key] = value
 
-            result = processTV.processDir(dir, nzbName, method=method, pp_options=pp_options)
+            result = processTV.processDir(dir, nzbName=nzbName, method=method, pp_options=pp_options)
             if quiet is not None and int(quiet) == 1:
                 return result
 
