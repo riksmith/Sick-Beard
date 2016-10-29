@@ -347,6 +347,9 @@ def searchDBForShow(regShowName):
             if match and match.group(1):
                 logger.log(u"Unable to match original name but trying to manually strip and specify show year", logger.DEBUG)
                 sqlResults = myDB.select("SELECT * FROM tv_shows WHERE (show_name LIKE ? OR tvr_name LIKE ?) AND startyear = ?", [match.group(1) + '%', match.group(1) + '%', match.group(3)])
+                if (len(sqlResults) == 0):
+                    logger.log(u"Unable to match original name while trying to manually strip and specify show year, trying without year", logger.DEBUG)
+                    sqlResults = myDB.select("SELECT * FROM tv_shows WHERE show_name LIKE ? OR tvr_name LIKE ?", [match.group(1) + '%', match.group(1) + '%'])
 
             if len(sqlResults) == 0:
                 logger.log(u"Unable to match a record in the DB for " + showName, logger.DEBUG)
