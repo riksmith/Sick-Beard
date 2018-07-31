@@ -1114,6 +1114,9 @@ span.HD1080p {
   background: none repeat scroll 0 0 #499;
   /* blue */
 }
+span.HD2160p {
+  background: none repeat scroll 0 0 blueviolet;
+}
 span.SD {
   background: none repeat scroll 0 0 #944;
   /* red */
