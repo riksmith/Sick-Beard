@@ -27,7 +27,7 @@ from sickbeard import encodingKludge as ek
 from sickbeard.name_parser.parser import NameParser, InvalidNameException
 
 MIN_DB_VERSION = 9  # oldest db version we support migrating from
-MAX_DB_VERSION = 18
+MAX_DB_VERSION = 19
 
 
 class MainSanityCheck(db.DBSanityCheck):
@@ -337,7 +337,7 @@ class Add1080pAndRawHDQualities(RenameSeasonFolders):
 
         # update ANY -- shift existing qualities and add new 1080p qualities, note that rawHD was not added to the ANY template
         old_any = common.Quality.combineQualities([common.Quality.SDTV, common.Quality.SDDVD, common.Quality.HDTV, common.Quality.HDWEBDL >> 2, common.Quality.HDBLURAY >> 3, common.Quality.UNKNOWN], [])
-        new_any = common.Quality.combineQualities([common.Quality.SDTV, common.Quality.SDDVD, common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY, common.Quality.ULTRAHDWEBDL, common.Quality.ULTRAHDBLURAY, common.Quality.UNKNOWN], [])
+        new_any = common.Quality.combineQualities([common.Quality.SDTV, common.Quality.SDDVD, common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY, common.Quality.UNKNOWN], [])
 
         # update qualities (including templates)
         logger.log(u"[1/4] Updating pre-defined templates and the quality for each show...", logger.MESSAGE)
@@ -605,3 +605,39 @@ class AddHistorySource(AddSkipNotifications):
             self.connection.mass_action(set_torrent_source)
 
         self.incDBVersion()
+
+class Add2160pQualities(AddHistorySource):
+    """ Add support for 2160p related qualities """
+
+    def test(self):
+        return self.checkDBVersion() >= 19
+
+    def execute(self):
+        backupDatabase(19)
+
+        # upgrade previous HD to include 2160p
+        old_hd = common.Quality.combineQualities([common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY], [])
+        new_hd = common.Quality.combineQualities([common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY, common.Quality.ULTRAHDWEBDL, common.Quality.ULTRAHDBLURAY], [])
+
+        # update ANY to include 2160p
+        old_any = common.Quality.combineQualities([common.Quality.SDTV, common.Quality.SDDVD, common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY, common.Quality.UNKNOWN], [])
+        new_any = common.Quality.combineQualities([common.Quality.SDTV, common.Quality.SDDVD, common.Quality.HDTV, common.Quality.FULLHDTV, common.Quality.HDWEBDL, common.Quality.FULLHDWEBDL, common.Quality.HDBLURAY, common.Quality.FULLHDBLURAY, common.Quality.ULTRAHDWEBDL, common.Quality.ULTRAHDBLURAY, common.Quality.UNKNOWN], [])
+
+        # update qualities (including templates)
+        logger.log(u"[1/1] Updating pre-defined templates and the quality for each show...", logger.MESSAGE)
+        ql = []
+        shows = self.connection.select("SELECT * FROM tv_shows")
+        for cur_show in shows:
+            if cur_show["quality"] == old_hd:
+                new_quality = new_hd
+                ql.append(["UPDATE tv_shows SET quality = ? WHERE show_id = ?", [new_quality, cur_show["show_id"]]])
+            elif cur_show["quality"] == old_any:
+                new_quality = new_any
+                ql.append(["UPDATE tv_shows SET quality = ? WHERE show_id = ?", [new_quality, cur_show["show_id"]]])
+        if len(ql) > 0:
+            self.connection.mass_action(ql)
+        self.incDBVersion()
+
+        # cleanup and reduce db if any previous data was removed
+        logger.log(u"Performing a vacuum on the database.", logger.DEBUG)
+        self.connection.action("VACUUM")
