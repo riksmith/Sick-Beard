@@ -229,7 +229,7 @@ HD = Quality.combineQualities([Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, 
 HD720p = Quality.combineQualities([Quality.HDTV, Quality.HDWEBDL, Quality.HDBLURAY], [])
 HD1080p = Quality.combineQualities([Quality.FULLHDTV, Quality.FULLHDWEBDL, Quality.FULLHDBLURAY], [])
 HD2160p = Quality.combineQualities([Quality.ULTRAHDWEBDL, Quality.ULTRAHDBLURAY], [])
-ANY = Quality.combineQualities([Quality.SDTV, Quality.SDDVD, Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, Quality.FULLHDWEBDL, Quality.HDBLURAY, Quality.FULLHDBLURAY, Quality.UNKNOWN], [])  # SD + HD
+ANY = Quality.combineQualities([Quality.SDTV, Quality.SDDVD, Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, Quality.FULLHDWEBDL, Quality.HDBLURAY, Quality.FULLHDBLURAY, Quality.ULTRAHDWEBDL, Quality.ULTRAHDBLURAY, Quality.UNKNOWN], [])  # SD + HD
 
 qualityPresets = (SD, HD, HD720p, HD1080p, HD2160p, ANY)
 qualityPresetStrings = {SD: "SD",
