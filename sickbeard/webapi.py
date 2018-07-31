@@ -634,6 +634,8 @@ def _getQualityMap():
             Quality.FULLHDWEBDL: 'fullhdwebdl',
             Quality.HDBLURAY: 'hdbluray',
             Quality.FULLHDBLURAY: 'fullhdbluray',
+            Quality.ULTRAHDWEBDL: 'ultrahdwebdl',
+            Quality.ULTRAHDBLURAY: 'ultrahdbluray',
             Quality.UNKNOWN: 'unknown'}
 
 
@@ -1578,6 +1580,8 @@ class CMD_SickBeardSetDefaults(ApiCall):
                        'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
+                       'ultrahdwebdl': Quality.ULTRAHDWEBDL,
+                       'ultrahdbluray': Quality.ULTRAHDBLURAY,
                        'unknown': Quality.UNKNOWN}
 
         iqualityID = []
@@ -1746,6 +1750,8 @@ class CMD_ShowAddExisting(ApiCall):
                        'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
+                       'ultrahdwebdl': Quality.ULTRAHDWEBDL,
+                       'ultrahdbluray': Quality.ULTRAHDBLURAY,
                        'unknown': Quality.UNKNOWN}
 
         # use default quality as a failsafe
@@ -1826,6 +1832,8 @@ class CMD_ShowAddNew(ApiCall):
                        'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
+                       'ultrahdwebdl': Quality.ULTRAHDWEBDL,
+                       'ultrahdbluray': Quality.ULTRAHDBLURAY,
                        'unknown': Quality.UNKNOWN}
 
         # use default quality as a failsafe
@@ -2201,6 +2209,8 @@ class CMD_ShowSetQuality(ApiCall):
                        'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
+                       'ultrahdwebdl': Quality.ULTRAHDWEBDL,
+                       'ultrahdbluray': Quality.ULTRAHDBLURAY,
                        'unknown': Quality.UNKNOWN}
 
         # use default quality as a failsafe

@@ -81,6 +81,8 @@ class Quality:
     FULLHDWEBDL = 1 << 6   # 64 -- 1080p web-dl
     HDBLURAY = 1 << 7      # 128
     FULLHDBLURAY = 1 << 8  # 256
+    ULTRAHDWEBDL = 1 << 9  # 512
+    ULTRAHDBLURAY = 1 << 10  # 1024
 
     # put these bits at the other end of the spectrum, far enough out that they shouldn't interfere
     UNKNOWN = 1 << 15      # 32768
@@ -95,7 +97,9 @@ class Quality:
                       HDWEBDL: "720p WEB-DL",
                       FULLHDWEBDL: "1080p WEB-DL",
                       HDBLURAY: "720p BluRay",
-                      FULLHDBLURAY: "1080p BluRay"}
+                      FULLHDBLURAY: "1080p BluRay",
+                      ULTRAHDWEBDL: "2160p WEB-DL",
+                      ULTRAHDBLURAY: "2160p BluRay"}
 
     statusPrefixes = {DOWNLOADED: "Downloaded",
                       SNATCHED: "Snatched"}
@@ -161,10 +165,14 @@ class Quality:
             return Quality.HDWEBDL
         elif checkName(["1080p", "web.dl|webrip"], all) or checkName(["1080p", "itunes", "h.?264"], all):
             return Quality.FULLHDWEBDL
-        elif checkName(["720p", "bluray|hddvd", "x264"], all):
+        elif checkName(["2160p", "web.dl|webrip"], all) or checkName(["2160p", "itunes", "h.?264"], all):
+            return Quality.ULTRAHDWEBDL
+        elif checkName(["720p", "bluray|hddvd", "x264|x265"], all):
             return Quality.HDBLURAY
-        elif checkName(["1080p", "bluray|hddvd", "x264"], all):
+        elif checkName(["1080p", "bluray|hddvd", "x264|x265"], all):
             return Quality.FULLHDBLURAY
+        elif checkName(["2160p", "bluray|hddvd", "x264|x265"], all):
+            return Quality.ULTRAHDBLURAY
         else:
             return Quality.UNKNOWN
 
@@ -217,16 +225,18 @@ Quality.SNATCHED = [Quality.compositeStatus(SNATCHED, x) for x in Quality.qualit
 Quality.SNATCHED_PROPER = [Quality.compositeStatus(SNATCHED_PROPER, x) for x in Quality.qualityStrings.keys()]
 
 SD = Quality.combineQualities([Quality.SDTV, Quality.SDDVD], [])
-HD = Quality.combineQualities([Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, Quality.FULLHDWEBDL, Quality.HDBLURAY, Quality.FULLHDBLURAY], [])  # HD720p + HD1080p
+HD = Quality.combineQualities([Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, Quality.FULLHDWEBDL, Quality.HDBLURAY, Quality.FULLHDBLURAY, Quality.ULTRAHDWEBDL, Quality.ULTRAHDBLURAY], [])  # HD720p + HD1080p + HD2160p
 HD720p = Quality.combineQualities([Quality.HDTV, Quality.HDWEBDL, Quality.HDBLURAY], [])
 HD1080p = Quality.combineQualities([Quality.FULLHDTV, Quality.FULLHDWEBDL, Quality.FULLHDBLURAY], [])
+HD2160p = Quality.combineQualities([Quality.ULTRAHDWEBDL, Quality.ULTRAHDBLURAY], [])
 ANY = Quality.combineQualities([Quality.SDTV, Quality.SDDVD, Quality.HDTV, Quality.FULLHDTV, Quality.HDWEBDL, Quality.FULLHDWEBDL, Quality.HDBLURAY, Quality.FULLHDBLURAY, Quality.UNKNOWN], [])  # SD + HD
 
-qualityPresets = (SD, HD, HD720p, HD1080p, ANY)
+qualityPresets = (SD, HD, HD720p, HD1080p, HD2160p, ANY)
 qualityPresetStrings = {SD: "SD",
                         HD: "HD",
                         HD720p: "HD720p",
                         HD1080p: "HD1080p",
+                        HD2160p: "HD2160p",
                         ANY: "Any"}
 
 
