@@ -149,15 +149,15 @@ class Quality:
 
         checkName = lambda namelist, func: func([re.search(x, name, re.I) for x in namelist])
 
-        if checkName(["(pdtv|hdtv|dsr|tvrip).(xvid|x264)"], all) and not checkName(["(720|1080)[pi]"], all) and not checkName(["hr.ws.pdtv.x264"], any):
+        if checkName(["(pdtv|hdtv|dsr|tvrip).(xvid|x264)"], all) and not checkName(["(720|1080|2160)[pi]"], all) and not checkName(["hr.ws.pdtv.x264"], any):
             return Quality.SDTV
-        elif checkName(["web.dl|webrip|web", "xvid|x264|h.?264"], all) and not checkName(["(720|1080)[pi]"], all):
+        elif checkName(["web.dl|webrip|web", "xvid|x264|h.?264"], all) and not checkName(["(720|1080|2160)[pi]"], all):
             return Quality.SDTV
-        elif checkName(["(dvdrip|bdrip)(.ws)?.(xvid|divx|x264)"], any) and not checkName(["(720|1080)[pi]"], all):
+        elif checkName(["(dvdrip|bdrip)(.ws)?.(xvid|divx|x264)"], any) and not checkName(["(720|1080|2160)[pi]"], all):
             return Quality.SDDVD
         elif checkName(["720p|1080i", "hdtv", "mpeg-?2"], all) or checkName(["1080[pi].hdtv", "h.?264"], all):
             return Quality.RAWHDTV
-        elif checkName(["720p", "hdtv"], all) or checkName(["hr.ws.pdtv.x264"], any) and not checkName(["(1080)[pi]"], all):
+        elif checkName(["720p", "hdtv"], all) or checkName(["hr.ws.pdtv.x264"], any) and not checkName(["(1080|2160)[pi]"], all):
             return Quality.HDTV
         elif checkName(["1080p", "hdtv"], all):#elif checkName(["1080p", "hdtv", "x264"], all):
             return Quality.FULLHDTV
