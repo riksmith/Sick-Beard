@@ -10,10 +10,12 @@ from sickbeard.name_parser import parser
 import sickbeard
 sickbeard.SYS_ENCODING = 'UTF-8'
 
-DEBUG = VERBOSE = False
+DEBUG = VERBOSE = True
 
 simple_test_cases = {
               'standard': {
+              'S.W.A.T. (2018) S02E03 1080p AMZN WEBRip DD5.1 NL Subs': parser.ParseResult(None, 'S W A T (2018)', 2, [3], '1080p AMZN WEBRip DD5.1 NL Subs', None),
+              'S.W.A.T. 2017 S03E03 Funny Money 1080p AMZN WEB-DL DDP5.1 H264 NTb(1) NL subs': parser.ParseResult(None, 'S W A T 2017', 3, [3], 'Funny Money 1080p AMZN WEB-DL DDP5.1 H264 NTb(1) NL subs', None),
               'Mr.Show.Name.S01E02.Source.Quality.Etc-Group': parser.ParseResult(None, 'Mr Show Name', 1, [2], 'Source.Quality.Etc', 'Group'),
               'Show.Name.S01E02': parser.ParseResult(None, 'Show Name', 1, [2]),
               'Show Name - S01E02 - My Ep Name': parser.ParseResult(None, 'Show Name', 1, [2], 'My Ep Name'),
