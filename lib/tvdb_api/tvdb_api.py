@@ -28,6 +28,7 @@ import warnings
 import logging
 import datetime
 import zipfile
+from base64 import standard_b64decode
 
 try:
     import xml.etree.cElementTree as ElementTree
@@ -538,9 +539,9 @@ class Tvdb:
                 # TODO: The zip contains actors.xml and banners.xml, which are currently ignored [GH-20]
                 log().debug("We recived a zip file unpacking now ...")
                 zipdata = StringIO.StringIO()
-                zipdata.write(resp.read())
+                zipdata.write(standard_b64decode(resp.content))
                 myzipfile = zipfile.ZipFile(zipdata)
-                return myzipfile.read('%s.xml' % language)
+                return myzipfile.read('series.xml')
             except zipfile.BadZipfile:
                 if 'x-local-cache' in resp.headers:
                     resp.delete_cache()
