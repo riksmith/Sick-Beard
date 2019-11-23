@@ -539,7 +539,7 @@ class Tvdb:
                 # TODO: The zip contains actors.xml and banners.xml, which are currently ignored [GH-20]
                 log().debug("We recived a zip file unpacking now ...")
                 zipdata = StringIO.StringIO()
-                zipdata.write(standard_b64decode(resp.content))
+                zipdata.write(standard_b64decode(resp.read()))
                 myzipfile = zipfile.ZipFile(zipdata)
                 return myzipfile.read('series.xml')
             except zipfile.BadZipfile:
