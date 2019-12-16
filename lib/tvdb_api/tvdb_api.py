@@ -541,6 +541,10 @@ class Tvdb:
                 zipdata.write(resp.read())
                 myzipfile = zipfile.ZipFile(zipdata)
                 return myzipfile.read('%s.xml' % language)
+            except KeyError, errormsg:
+                if 'x-local-cache' in resp.headers:
+                    resp.delete_cache()
+                raise tvdb_error("Error reading zipfile: %s" % (errormsg));
             except zipfile.BadZipfile:
                 if 'x-local-cache' in resp.headers:
                     resp.delete_cache()
