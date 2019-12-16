@@ -540,7 +540,7 @@ class Tvdb:
                 zipdata = StringIO.StringIO()
                 zipdata.write(resp.read())
                 myzipfile = zipfile.ZipFile(zipdata)
-                return myzipfile.read('%s.zip.xml' % language)
+                return myzipfile.read('%s.xml' % language)
             except zipfile.BadZipfile:
                 if 'x-local-cache' in resp.headers:
                     resp.delete_cache()
