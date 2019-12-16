@@ -152,18 +152,20 @@ class RSSSearchQueueItem(generic_queue.QueueItem):
         sqlResults = myDB.select("SELECT * FROM tv_episodes WHERE status = ? AND season > 0 AND airdate > ? AND airdate < ?", [common.UNAIRED, noDate, curDate])
 
         for sqlEp in sqlResults:
-
+            logger.log(u"Result:" + sqlEp, logger.DEBUG)
+            logger.log(u"Result:" + sqlEp["showid"], logger.DEBUG)
             try:
                 show = helpers.findCertainShow(sickbeard.showList, int(sqlEp["showid"]))
             except exceptions.MultipleShowObjectsException:
-                logger.log(u"ERROR: expected to find a single show matching " + sqlEp["showid"])
+                logger.log(u"Expected to find a single show matching " + sqlEp["showid"], logger.ERROR)
                 return None
 
             if show is None:
                 logger.log(u"Unable to find the show with ID " + str(sqlEp["showid"]) + " in your show list! DB value was " + str(sqlEp), logger.ERROR)
                 return None
-
+            logger.log(u"Get ep:" + sqlEp["season"] + " " + sqlEp["episode"], logger.DEBUG)
             ep = show.getEpisode(sqlEp["season"], sqlEp["episode"])
+            logger.log(u"Ep:" + ep, logger.DEBUG)
             with ep.lock:
                 if ep.show.paused:
                     ep.status = common.SKIPPED
