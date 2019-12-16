@@ -151,6 +151,7 @@ class RSSSearchQueueItem(generic_queue.QueueItem):
         myDB = db.DBConnection()
         sqlResults = myDB.select("SELECT * FROM tv_episodes WHERE status = ? AND season > 0 AND airdate > ? AND airdate < ?", [common.UNAIRED, noDate, curDate])
 
+        logger.log(u"Result:" + sqlResults, logger.DEBUG)
         for sqlEp in sqlResults:
             logger.log(u"Result:" + sqlEp, logger.DEBUG)
             logger.log(u"Result:" + sqlEp["showid"], logger.DEBUG)

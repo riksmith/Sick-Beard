@@ -35,7 +35,6 @@ from lib.tvdb_api import tvdb_api, tvdb_exceptions
 from sickbeard import db
 from sickbeard import helpers, exceptions, logger
 from sickbeard.exceptions import ex
-from sickbeard import tvrage
 from sickbeard import image_cache
 
 from sickbeard import encodingKludge as ek
@@ -421,22 +420,6 @@ class TVShow(object):
 
         return scannedEps
 
-    def setTVRID(self, force=False):
-
-        if self.tvrid != 0 and not force:
-            logger.log(u"No need to get the TVRage ID, it's already populated", logger.DEBUG)
-            return
-
-        logger.log(u"Attempting to retrieve the TVRage ID", logger.DEBUG)
-
-        try:
-            # load the tvrage object, it will set the ID in its constructor if possible
-            tvrage.TVRage(self)
-            self.saveToDB()
-        except exceptions.TVRageException, e:
-            logger.log(u"Couldn't get TVRage ID because we're unable to sync TVDB and TVRage: " + ex(e), logger.DEBUG)
-            return
-
     def getImages(self, fanart=None, poster=None):
         fanart_result = poster_result = banner_result = False
         season_posters_result = season_banners_result = season_all_poster_result = season_all_banner_result = False
@@ -455,22 +438,6 @@ class TVShow(object):
             season_all_banner_result = cur_provider.create_season_all_banner(self) or season_all_banner_result
 
         return fanart_result or poster_result or banner_result or season_posters_result or season_banners_result or season_all_poster_result or season_all_banner_result
-
-    def loadLatestFromTVRage(self):
-
-        try:
-            # load the tvrage object
-            tvr = tvrage.TVRage(self)
-
-            newEp = tvr.findLatestEp()
-
-            if newEp is not None:
-                logger.log(u"TVRage gave us an episode object - saving it for now", logger.DEBUG)
-                newEp.saveToDB()
-
-            # make an episode out of it
-        except exceptions.TVRageException, e:
-            logger.log(u"Unable to add TVRage info: " + ex(e), logger.WARNING)
 
     # make a TVEpisode object from a media file
     def makeEpFromFile(self, file):
