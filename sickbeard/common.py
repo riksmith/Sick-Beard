@@ -181,7 +181,7 @@ class Quality:
         if name.lower().endswith((".avi", ".mp4")):
             return Quality.SDTV
         elif name.lower().endswith(".mkv"):
-            return Quality.HDTV
+            return Quality.FULLHDWEBDL
         elif name.lower().endswith(".ts"):
             return Quality.RAWHDTV
         elif name.lower().endswith(".iso"):
