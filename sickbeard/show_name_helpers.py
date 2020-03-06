@@ -102,7 +102,14 @@ def sceneToNormalShowNames(name):
 
     results += name_list
 
-    return list(set(results))
+    resultswithoutyear = []
+    for cur_name in results:
+        # remove the year
+        resultswithoutyear.append(re.sub('([^()]+?)\s*\.?(\()?(\d{4})(?(2)\))$', '\\1', cur_name).strip())
+
+    resultswithoutyear += results
+
+    return list(set(resultswithoutyear))
 
 
 def makeSceneShowSearchStrings(show):

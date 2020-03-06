@@ -54,12 +54,13 @@ class SceneTests(test.SickbeardTestDBCase):
             self._test_isGoodName(scene_name, s)
 
     def test_sceneToNormalShowNames(self):
-        self._test_sceneToNormalShowNames('Show Name 2010', ['Show Name 2010', 'Show Name (2010)'])
+        self._test_sceneToNormalShowNames('Show Name 2010', ['Show Name 2010', 'Show Name (2010)', 'Show Name'])
+        self._test_sceneToNormalShowNames('Show Name (2010)', ['Show Name (2010)', 'Show Name'])
         self._test_sceneToNormalShowNames('Show Name US', ['Show Name US', 'Show Name (US)'])
         self._test_sceneToNormalShowNames('Show Name AU', ['Show Name AU', 'Show Name (AU)'])
         self._test_sceneToNormalShowNames('Show Name CA', ['Show Name CA', 'Show Name (CA)'])
         self._test_sceneToNormalShowNames('Show and Name', ['Show and Name', 'Show & Name'])
-        self._test_sceneToNormalShowNames('Show and Name 2010', ['Show and Name 2010', 'Show & Name 2010', 'Show and Name (2010)', 'Show & Name (2010)'])
+        self._test_sceneToNormalShowNames('Show and Name 2010', ['Show and Name 2010', 'Show & Name 2010', 'Show and Name (2010)', 'Show & Name (2010)', 'Show and Name'])
         self._test_sceneToNormalShowNames('show name us', ['show name us', 'show name (us)'])
         self._test_sceneToNormalShowNames('Show And Name', ['Show And Name', 'Show & Name'])
 
