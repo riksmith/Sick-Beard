@@ -32,6 +32,11 @@ simple_test_cases = {
               'Show.Name.S06E01.Other.WEB-DL': parser.ParseResult(None, 'Show Name', 6, [1], 'Other.WEB-DL' ),
               'Show.Name.S06E01 Some-Stuff Here': parser.ParseResult(None, 'Show Name', 6, [1], 'Some-Stuff Here' ),
               },
+              'dutch': {
+              'Show Name Seizoen 3 Afl.06 1080p': parser.ParseResult(None, 'Show Name', 3, [6], '1080p'),
+              'Show Name Seizoen 3 Afl. 06 1080p': parser.ParseResult(None, 'Show Name', 3, [6], '1080p'),
+              'Show Name Seizoen 3 Afl. 6 1080p': parser.ParseResult(None, 'Show Name', 3, [6], '1080p')
+              },
               
               'fov': {
               'Show_Name.1x02.Source_Quality_Etc-Group': parser.ParseResult(None, 'Show Name', 1, [2], 'Source_Quality_Etc', 'Group'),
@@ -241,7 +246,9 @@ class BasicTests(unittest.TestCase):
             if DEBUG or verbose:
                 print 'air_by_date:', test_result.air_by_date, 'air_date:', test_result.air_date
                 print test_result
+                print test_result.which_regex
                 print result
+                print result.which_regex
             self.assertEqual(test_result.which_regex, [section])
             self.assertEqual(test_result, result)
 
@@ -260,6 +267,10 @@ class BasicTests(unittest.TestCase):
     def test_fov_repeat_names(self):
         np = parser.NameParser(False)
         self._test_names(np, 'fov_repeat')
+
+    def test_dutch_names(self):
+        np = parser.NameParser(False)
+        self._test_names(np, 'dutch')
 
     def test_bare_names(self):
         np = parser.NameParser(False)
