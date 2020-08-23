@@ -539,7 +539,7 @@ class TVShow(object):
                     curEp.status = Quality.compositeStatus(DOWNLOADED, newQuality)
 
             # check for status/quality changes as long as it's a new file
-            elif not same_file and sickbeard.helpers.isMediaFile(file) and curEp.status not in Quality.DOWNLOADED + [ARCHIVED, IGNORED]:
+            elif not same_file and sickbeard.helpers.isMediaFile(file):
 
                 oldStatus, oldQuality = Quality.splitCompositeStatus(curEp.status)
                 newQuality = Quality.nameQuality(file)
@@ -562,9 +562,13 @@ class TVShow(object):
                     newStatus = DOWNLOADED
 
                 if newStatus is not None:
+                    if sickbeard.helpers.isArchivedMediaFile(file):
+                        statusToSet = ARCHIVED
+                    else:
+                        statusToSet = Quality.compositeStatus(newStatus, newQuality)
                     with curEp.lock:
-                        logger.log(u"STATUS: we have an associated file, so setting the status from " + str(curEp.status) + " to DOWNLOADED/" + str(Quality.statusFromName(file)), logger.DEBUG)
-                        curEp.status = Quality.compositeStatus(newStatus, newQuality)
+                        logger.log(u"STATUS: we have an associated file, so setting the status from " + statusStrings[curEp.status] + " to " + statusStrings[statusToSet], logger.DEBUG)
+                        curEp.status = statusToSet
 
             with curEp.lock:
                 curEp.saveToDB()

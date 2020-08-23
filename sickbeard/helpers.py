@@ -50,7 +50,7 @@ import sickbeard
 
 from sickbeard.exceptions import MultipleShowObjectsException, ex
 from sickbeard import logger, classes
-from sickbeard.common import USER_AGENT, mediaExtensions, XML_NSMAP
+from sickbeard.common import USER_AGENT, mediaExtensions, archivedMediaExtensions, XML_NSMAP
 
 from sickbeard import db
 from sickbeard import encodingKludge as ek
@@ -90,7 +90,7 @@ def remove_extension(name):
 
     if name and "." in name:
         base_name, sep, extension = name.rpartition('.')  # @UnusedVariable
-        if base_name and extension.lower() in ['nzb', 'torrent'] + mediaExtensions:
+        if base_name and extension.lower() in ['nzb', 'torrent'] + mediaExtensions + archivedMediaExtensions:
             name = base_name
 
     return name
@@ -138,6 +138,12 @@ def replaceExtension(filename, newExt):
 
 
 def isMediaFile(filename):
+    return checkMediaFileByExtension(filename, mediaExtensions) or checkMediaFileByExtension(filename, archivedMediaExtensions)
+
+def isArchivedMediaFile(filename):
+    return checkMediaFileByExtension(filename, archivedMediaExtensions)
+
+def checkMediaFileByExtension(filename, extensions):
     # ignore samples
     if re.search('(^|[\W_])sample\d*[\W_]', filename.lower()):
         return False
@@ -147,11 +153,10 @@ def isMediaFile(filename):
         return False
 
     sepFile = filename.rpartition(".")
-    if sepFile[2].lower() in mediaExtensions:
+    if sepFile[2].lower() in extensions:
         return True
     else:
         return False
-
 
 def sanitizeFileName(name):
     '''
