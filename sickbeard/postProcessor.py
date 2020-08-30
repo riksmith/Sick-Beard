@@ -649,7 +649,7 @@ class PostProcessor(object):
             self._log(u"Existing episode status is not downloaded/archived, marking it safe to replace", logger.DEBUG)
             return True
 
-        if old_ep_status == common.ARCHIVED:
+        if old_ep_status == common.ARCHIVED and not self.force_replace:
             self._log(u"Existing episode status is archived, marking it unsafe to replace", logger.DEBUG)
             return False
 
